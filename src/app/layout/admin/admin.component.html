@@ -1,0 +1,206 @@
+<h3>Welcome Admin!</h3>
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="false" aria-controls="collapseOne">
+                    Create New ICU
+                </button>
+            </h2>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <form #createicu="ngForm" (ngSubmit)="createIcu(createicu)">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ngModel name="label" placeholder="Enter layout" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" ngModel name="bedCount"
+                            placeholder="Enter no of beds in Icu" />
+                    </div>
+                    <button class="btn btn-primary">Create Icu</button>
+
+                </form>
+                <div *ngIf="lastCreatedIcu!=undefined">
+                    <br>
+                    <h5>Last created ICU</h5>
+                    <p>Id - {{lastCreatedIcu.id}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    Admit Patient
+                </button>
+            </h2>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <form #admitpatient="ngForm" (ngSubmit)="admitPatient(admitpatient)">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ngModel name="name" placeholder="Enter name" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ngModel name="address" placeholder="Enter address" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" ngModel name="age" placeholder="Enter age" />
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-radio">
+                            <input id="male" type="radio" class="custom-control-input" value="male" name="gender"
+                                ngModel>
+                            <label class="custom-control-label" for="male">Male</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input id="female" type="radio" class="custom-control-input" value="female" name="gender"
+                                ngModel>
+                            <label class="custom-control-label" for="female">Female</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ngModel name="contact"
+                            placeholder="Enter contact number" />
+                    </div>
+                    <div class="form-group">
+                        <label>Select ICU</label>
+                        <select id="icu" class="form-control" name="icu" ngModel required placeholder="Select ICU"
+                            (change)="changeIcu($event)">
+                            <option *ngFor="let icu of icus" [value]="icu.id">{{ icu.id }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Bed</label>
+                        <select class="form-control" id="bed" name="bed" ngModel required placeholder="Select Bed">
+                            <option *ngFor="let bed of beds" [value]="bed.id">{{ bed.id }}</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary">Admit Patient</button>
+                </form>
+                <div *ngIf="lastAdmittedPatient!=undefined">
+                    <br>
+                    <h5>Last admitted patient</h5>
+                    <p>Id - {{lastAdmittedPatient.id}} Name - {{lastAdmittedPatient.name}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="false" aria-controls="collapseThree">
+                    Discharge Patient
+                </button>
+            </h2>
+        </div>
+        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+                <form #dischargepatient="ngForm" (ngSubmit)="dischargePatient(dischargepatient)">
+                    <div class="form-group">
+                        <label>Select Patient</label>
+                        <select id="patient" class="form-control" name="patient" ngModel required
+                            placeholder="Select Patient">
+                            <option *ngFor="let patient of patients" [value]="patient.id">Id - {{ patient.id }} Name -
+                                {{patient.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary">Discharge Patient</button>
+                </form>
+                <div *ngIf="lastDischargedPatient!=undefined">
+                    <br>
+                    <h5>Last discharged patient</h5>
+                    <p>Id - {{lastDischargedPatient.id}} Name - {{lastDischargedPatient.name}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingFour">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="false" aria-controls="collapseFour">
+                    Change Monitor
+                </button>
+            </h2>
+        </div>
+        <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionExample">
+            <div class="card-body">
+                <form #changemonitor="ngForm" (ngSubmit)="changeMonitor(changemonitor)">
+                    <div class="form-group">
+                        <label>Select Monitor to replace</label>
+                        <select id="bedId" class="form-control" name="bedId" ngModel required
+                            placeholder="Select Monitor to replace">
+                            <option *ngFor="let monitor of monitors" [value]="monitor.bed.id">Monitor {{ monitor.id }}
+                                on Bed
+                                {{monitor.bed.id}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ngModel name="newMonitorId"
+                            placeholder="Enter new Monitor Id" />
+                    </div>
+                    <button class="btn btn-primary">Change Monitor</button>
+                </form>
+                <div *ngIf="newMonitor!=undefined">
+                    <br>
+                    <h5>New Monitor</h5>
+                    <p>Id - {{newMonitor.id}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingFive">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFive"
+                    aria-expanded="false" aria-controls="collapseFive">
+                    Send Vitals for Alert
+                </button>
+            </h2>
+        </div>
+        <div id="collapseFive" class="collapse show" aria-labelledby="headingFive" data-parent="#accordionExample">
+            <div class="card-body">
+                <form #sendvitals="ngForm" (ngSubmit)="sendVitals(sendvitals)">
+                    <div class="form-group">
+                        <label>Select Monitor</label>
+                        <select id="monitor" class="form-control" name="monitor" ngModel required
+                            placeholder="Select Monitor">
+                            <option *ngFor="let monitor of monitorsWithPatients" [value]="monitor.id">Monitor {{ monitor.id }} on
+                                Bed
+                                {{monitor.bed.id}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" ngModel name="bp" placeholder="Enter BP" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" ngModel name="spo2" placeholder="Enter SPO2" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" ngModel name="respRate"
+                            placeholder="Enter Resp Rate" />
+                    </div>
+                    <button class="btn btn-primary">Send Vitals</button>
+                </form>
+                <div *ngIf="message!=undefined">
+                    <br>
+                    <h5>Vitals status</h5>
+                    <p>{{message}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

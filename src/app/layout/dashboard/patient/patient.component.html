@@ -1,0 +1,2 @@
+<p *ngIf="bed.occupiedFlag==true; else elsePatientBlock">Occupied by <strong>Patient ID - {{getPatient(bed.id).id}} Patient Name - {{getPatient(bed.id).name}}</strong></p>
+<ng-template #elsePatientBlock>Not Occupied</ng-template>

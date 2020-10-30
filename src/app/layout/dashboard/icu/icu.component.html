@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-header">ICU {{icu.id}} - Bed Count {{icu.bedCount}}</div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Bed ID</th>
+                    <th scope="col">Occupied</th>
+                    <th scope="col">Alert</th>
+                    <th scope="col">BP</th>
+                    <th scope="col">SPO2</th>
+                    <th scope="col">Resp Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bed of beds">
+                    <td>{{ bed.id}}</td>
+                    <td><patient-comp [bed]="bed"></patient-comp></td>
+                    <td><div *ngIf="bed.alertstatus==true; else elseAlertBlock"><div class="blinking">Yes</div></div></td>
+                    <td><div *ngIf="bed.bpStatus!=null; else elseBlock">{{bed.bpStatus}}</div></td>
+                    <td><div *ngIf="bed.spo2Status!=null; else elseBlock">{{bed.spo2Status}}</div></td>
+                    <td><div *ngIf="bed.respRateStatus!=null; else elseBlock">{{bed.respRateStatus}}</div></td>
+                </tr>
+            </tbody>
+            <ng-template #elseBlock>N/A</ng-template>
+            <ng-template #elseAlertBlock>No</ng-template>
+        </table>
+    </div>
+</div>
